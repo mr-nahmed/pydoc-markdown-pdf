@@ -1,33 +1,26 @@
-name: Generate PDF
+name: Convert Text to PDF
 
 on:
   push:
     branches:
       - main
-  pull_request:
 
 jobs:
-  build:
-    runs-on: windows-latest
+  convert:
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up TeX Live
-      run: |
-        choco install texlive -y
-        choco install texlive-full -y
-        set PATH=%PATH%;C:\texlive\2024\bin\windows
-
     - name: Install Pandoc
-      run: choco install pandoc -y
+      run: sudo apt-get install -y pandoc
 
-    - name: Convert Markdown to PDF
-      run: pandoc MANUAL.txt --pdf-engine=xelatex -o example13.pdf
+    - name: Convert text file to PDF
+      run: pandoc document.txt -o output.pdf
 
     - name: Upload PDF
       uses: actions/upload-artifact@v2
       with:
-        name: pdf
-        path: example13.pdf
+        name: pdf-document
+        path: output.pdf
