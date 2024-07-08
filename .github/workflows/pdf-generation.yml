@@ -1,0 +1,33 @@
+name: Generate PDF
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up TeX Live
+      run: |
+        choco install texlive -y
+        choco install texlive-full -y
+        set PATH=%PATH%;C:\texlive\2023\bin\win32
+
+    - name: Install Pandoc
+      run: choco install pandoc -y
+
+    - name: Convert Markdown to PDF
+      run: pandoc MANUAL.txt --pdf-engine=xelatex -o example13.pdf
+
+    - name: Upload PDF
+      uses: actions/upload-artifact@v2
+      with:
+        name: pdf
+        path: example13.pdf
