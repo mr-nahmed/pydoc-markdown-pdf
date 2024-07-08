@@ -4,6 +4,10 @@ author: John MacFarlane
 date: June 24, 2024
 ---
 
+# Student Page Sample
+
+![student image](student.png "Example Image")
+
 # Synopsis
 
 `pandoc` [*options*] [*input-file*]...
