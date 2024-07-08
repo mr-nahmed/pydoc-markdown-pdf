@@ -17,7 +17,7 @@ jobs:
       run: sudo apt-get install -y pandoc
 
     - name: Convert text file to PDF
-      run: pandoc document.txt -o output.pdf
+      run: pandoc MANUAL.txt -o output.pdf
 
     - name: Upload PDF
       uses: actions/upload-artifact@v2
