@@ -20,10 +20,10 @@ jobs:
       run: sudo apt-get install -y texlive texlive-latex-extra texlive-fonts-recommended
 
     - name: Convert text file to PDF
-      run: pandoc MANUAL.txt -o output.pdf
+      run: pandoc student/document.txt -o student.pdf
 
     - name: Upload PDF
       uses: actions/upload-artifact@v2
       with:
         name: pdf-document
-        path: output.pdf
+        path: student.pdf

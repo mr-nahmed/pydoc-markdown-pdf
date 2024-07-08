@@ -6,15 +6,15 @@ date: June 24, 2024
 
 # Student Page Sample
 
-![student image](student.png "Example Image")
+![student image](1_student_bubble_graph.png "Example Image")
 
 # API Request
 
-![student image](api_request.png "Example Image")
+![1.1_student_bubble_graph_api.png image](1.1_student_bubble_graph_api.png "Example Image")
 
 # API response
 
-![student image](api_response.png "Example Image")
+![1.2_student_bubble_graph_api_response.png image](1.2_student_bubble_graph_api_response.png "Example Image")
 
 # Description
 
