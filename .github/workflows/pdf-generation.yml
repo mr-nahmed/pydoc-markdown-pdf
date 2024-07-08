@@ -18,7 +18,7 @@ jobs:
       run: |
         choco install texlive -y
         choco install texlive-full -y
-        set PATH=%PATH%;C:\texlive\2023\bin\win32
+        set PATH=%PATH%;C:\texlive\2024\bin\windows
 
     - name: Install Pandoc
       run: choco install pandoc -y
