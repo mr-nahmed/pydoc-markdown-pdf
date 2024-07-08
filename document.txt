@@ -4,17 +4,103 @@ author: John MacFarlane
 date: June 24, 2024
 ---
 
-# Student Page Sample
+
 
 ![student image](1_student_bubble_graph.png "Example Image")
 
-# API Request
 
 ![1.1_student_bubble_graph_api.png image](1.1_student_bubble_graph_api.png "Example Image")
 
-# API response
 
 ![1.2_student_bubble_graph_api_response.png image](1.2_student_bubble_graph_api_response.png "Example Image")
+
+
+## Following is the cronjob for above one.
+
+![1.3_student_bubble_graph_cron_job.png image](1.3_student_bubble_graph_cron_job.png "Example Image")
+
+
+# Pseudo Code of the Cronjob
+
+- Initialize response dictionary
+- Load state and data pusher
+  - `state_loader = self.state_loader.get_states_loader(states_loader_type="")`
+  - `data_pusher = self.data_pusher.get_data_pusher(data_pusher_type=UPDATE_BEHAVIOR_ANALYSIS_COLL)`
+- Fetch behavior analysis data
+  - `response = self.dao.fetch_behavior_analysis()`
+- Extract relevant data from response
+  - `df_prac_ended = response[DATA_KEY][LEARN_RECS_PRAC_ENDED_DATA_KEY]`
+  - `df_assessment_tabs = response[DATA_KEY][ASSESSMENT_TABS_COLL]`
+  - `df_content = response[DATA_KEY][CONTENT_DATA_KEY]`
+  - `df_content_metas = response[DATA_KEY][CONTENT_META_DATA_KEY]`
+- Merge content data with metadata
+  - `df_content_all = pd.merge(df_content, df_content_metas[["contentId", "courseId"]], how="left", left_on="id", right_on="contentId")`
+- Extract and filter LSOD quizzes
+  - `df_content_all["lsod"] = df_content_all["lsod"].apply(lambda x: x["definition"])`
+  - `df_content_all = df_content_all.explode("lsod")`
+  - `df_content_all = df_content_all[df_content_all["lsod"].apply(lambda x: x["type"] == "PRACTICE")]`
+  - `df_content_all["quizId"] = df_content_all["lsod"].apply(lambda x: x["id"])`
+  - `df_content_all = df_content_all[["quizId", "contentId", "courseId"]]`
+- Calculate average module and course scores
+  - `df_content_all = df_content_all.rename(columns={"quizId": "practiceId"})`
+  - `df_assessment_tabs = df_assessment_tabs.merge(df_content_all, how='left', on=["practiceId", "courseId"])`
+  - `df_module_scores = (df_assessment_tabs.groupby(['courseId', 'userId', 'moduleId']).apply(lambda x: x['percentage'].mean()).reset_index().rename(columns={0: "percentage"}))`
+  - `df_course_scores = (df_module_scores.groupby(['courseId', 'userId']).apply(lambda x: x['percentage'].mean()).reset_index().rename(columns={0: "percentage"}))`
+  - `df_course_scores['percentage'] = df_course_scores['percentage'].apply(lambda x: round(x, 2))`
+- Filter out rows with missing quizId values
+  - `df_prac_ended = pd.merge(df_prac_ended, df_content_all, how="left", left_on="practiceId", right_on="quizId")`
+  - `df_prac_ended = df_prac_ended[~df_prac_ended["quizId"].isna()]`
+  - `df_prac_ended = df_prac_ended[["userId", "courseId_x", "endTime", "practiceId", "result"]]`
+  - `df_prac_ended = df_prac_ended.rename(columns={"courseId_x": "courseId"})`
+- Calculate practice quiz scores
+  - Initialize `prac_ended_total = []`
+  - For each group in `df_prac_ended.groupby(["userId", "courseId"])`:
+    - Initialize `avg_score_list = []`
+    - For each practice quiz in the group:
+      - Sort by `endTime`
+      - Calculate score as `result["score"] / result["maxScore"]`
+      - Append score to `avg_score_list`
+    - Append `userId`, `courseId`, count of practice quizzes, and average score to `prac_ended_total`
+  - Convert `prac_ended_total` to DataFrame `df_prac_ended_total`
+  - Rename columns to `["userId", "courseId", "practice_quiz_count", "score"]`
+- Merge scores with practice-ended total counts
+  - `df_prac_ended_total = df_course_scores.merge(df_prac_ended_total[['courseId', 'userId', 'practice_quiz_count']], how='left', on=['courseId', 'userId']).fillna(0).rename(columns={"percentage": "score"})`
+- Calculate total count of quizzes per course
+  - `df_total_course_practice_count = df_content_all.groupby("courseId").count().reset_index()[["courseId", "quizId"]]`
+  - Rename columns to `["courseId", "total_count"]`
+- Merge final results with total course practice counts
+  - `final_df = pd.merge(df_prac_ended_total, df_total_course_practice_count, how="left", on="courseId")`
+- Filter practice-ended data for today
+  - `date_now = datetime.now().date()`
+  - `df_prac_ended_today = df_prac_ended[df_prac_ended["endTime"].apply(lambda x: x.date() == date_now)]`
+  - If `df_prac_ended_today` is not empty:
+    - Initialize `prac_ended_total_today = []`
+    - For each group in `df_prac_ended_today.groupby(["userId", "courseId"])`:
+      - Append `userId`, `courseId`, and count of unique practice quizzes to `prac_ended_total_today`
+    - Convert `prac_ended_total_today` to DataFrame `df_prac_ended_total_today`
+    - Rename columns to `["userId", "courseId", "practice_quiz_count_daily"]`
+    - Merge with `final_df` and fill missing values with 0
+  - Else, set `final_df["practice_quiz_count_daily"] = 0`
+- Additional processing steps for schedule groups, program items, etc.
+- Final processing, classification, and formatting
+  - Apply `behavior_classifier` to classify behaviors
+  - Merge with user information from `df_users`
+  - Fill missing values and format columns
+- Group by course and behavior type, and prepare the final records
+  - Initialize `records = []`
+  - For each course in `final_df.groupby("courseId")`:
+    - Initialize `rec = []`
+    - For each behavior category in the course:
+      - Initialize `users = []`
+      - For each user in the category, create a user data dictionary and append to `users`
+      - Create a final record dictionary with behavior type, name, and user data, and append to `rec`
+    - Append the course record to `records`
+- Ensure all behavior categories are represented
+  - Define `behavior_map` with all behavior categories
+  - For each record in `records`:
+    - Check if all behavior types are present, if not, append empty data for missing types
+
+
 
 # Description
 
