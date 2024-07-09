@@ -17,7 +17,7 @@ jobs:
       run: sudo apt-get install -y pandoc
 
     - name: Install LaTeX
-      run: sudo apt-get install -y texlive texlive-latex-extra texlive-fonts-recommended
+      run: sudo apt-get install -y texlive texlive-latex-extra texlive-fonts-recommended texlive-xetex
 
     - name: Convert text file to PDF
       run: pandoc document.txt --pdf-engine=xelatex -o student.pdf
