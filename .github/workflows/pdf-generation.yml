@@ -20,7 +20,7 @@ jobs:
       run: sudo apt-get install -y texlive texlive-latex-extra texlive-fonts-recommended texlive-xetex
 
     - name: Convert text file to PDF
-      run: pandoc document.txt --pdf-engine=xelatex -o student.pdf
+      run: pandoc student/document.txt --pdf-engine=xelatex -o student.pdf
 
     - name: Upload PDF
       uses: actions/upload-artifact@v2
