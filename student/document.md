@@ -3,8 +3,6 @@ title: Student UI page inspection
 ---
 
 
-<img src="student/1_student_bubble_graph.png" alt="Description of image" style="width:100%; height:auto;">
-
 ![student image](student/1_student_bubble_graph.png "Example Image")
 
 
