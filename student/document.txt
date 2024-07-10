@@ -3,7 +3,7 @@ title: Student UI page inspection
 ---
 
 
-![student image](student/1_student_bubble_graph.png "Example Image")
+![student image](student/1_student_bubble_graph.jpg "Example Image")
 
 
 ![1.1_student_bubble_graph_api.png image](student/1.1_student_bubble_graph_api.png "Example Image")
