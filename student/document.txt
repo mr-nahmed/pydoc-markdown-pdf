@@ -1,12 +1,10 @@
 ---
 title: Student UI page inspection
-author: John MacFarlane
-date: June 24, 2024
 ---
 
 
 
-![student image](1_student_bubble_graph.png "Example Image")
+![student image](student/1_student_bubble_graph.png "Example Image")
 
 
 ![1.1_student_bubble_graph_api.png image](1.1_student_bubble_graph_api.png "Example Image")
