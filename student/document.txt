@@ -53,7 +53,7 @@ title: Student UI page inspection
 
 ![7_risk_indicators_attendance_other_modules.jpg image](student/7_risk_indicators_attendance_other_modules.jpg "Example Image")
 
-![7.1_risk_indicators_attendance_other_modules_api.jpg image](student/.1_risk_indicators_attendance_other_modules_api.jpg "Example Image")
+![7.1_risk_indicators_attendance_other_modules_api.jpg image](student/7.1_risk_indicators_attendance_other_modules_api.jpg "Example Image")
 
 ![7.2_risk_indicators_attendance_other_modules_api_response image](student/7.2_risk_indicators_attendance_other_modules_api_response.jpg "Example Image")
 
