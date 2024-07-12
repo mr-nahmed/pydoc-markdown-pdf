@@ -5,9 +5,7 @@ title: SAT UI page inspection
 
 ![1_student_feedback_module](sat/1_student_feedback_module.jpg "Example Image")
 
-
 ![1.1_student_feedback_module_api.jpg image](sat/1.1_student_feedback_module_api.jpg "Example Image")
-
 
 ![1.2_student_feedback_module_api_response.jpg image](sat/1.2_student_feedback_module_api_response.jpg "Example Image")
 
@@ -19,12 +17,13 @@ title: SAT UI page inspection
 
 ![2.2_student_lesson_feedback_api_response image](sat/2.2_student_lesson_feedback_api_response.jpg "Example Image")
 
+
+
 ![3_instructor_feedback_module.jpg image](sat/3_instructor_feedback_module.jpg "Example Image")
 
 ![3.1_instructor_feedback_module_api.jpg image](sat/3.1_instructor_feedback_module_api.jpg "Example Image")
 
 ![3.2_instructor_feedback_module_api_response.jpg image](sat/3.2_instructor_feedback_module_api_response.jpg "Example Image")
-
 
 
 ![4_instructor_lesson_feedback.jpg image](sat/4_instructor_lesson_feedback.jpg "Example Image")
