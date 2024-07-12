@@ -25,8 +25,10 @@ jobs:
     - name: Convert sat file to PDF
       run: pandoc sat/sat_document.txt --pdf-engine=xelatex -o sat.pdf
 
-    - name: Upload PDF
+    - name: Upload PDFs
       uses: actions/upload-artifact@v2
       with:
-        name: pdf-document
-        path: student.pdf
+        name: pdf-documents
+        path: |
+          student.pdf
+          sat.pdf
