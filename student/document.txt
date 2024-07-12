@@ -6,51 +6,52 @@ title: Student UI page inspection
 ![student image](student/1_student_bubble_graph.jpg "Example Image")
 
 
-![1.1_student_bubble_graph_api.png image](student/1.1_student_bubble_graph_api.png "Example Image")
+![1.1_student_bubble_graph_api.jpg image](student/1.1_student_bubble_graph_api.jpg "Example Image")
 
 
-![1.2_student_bubble_graph_api_response.png image](student/1.2_student_bubble_graph_api_response.png "Example Image")
+![1.2_student_bubble_graph_api_response.jpg image](student/1.2_student_bubble_graph_api_response.jpg "Example Image")
 
 
 ## Following is the cronjob for above one.
 ### (update_behaviour_analysis_srvc) psuedo code of this cron job is at end of document.
-![1.3_student_bubble_graph_cron_job.png image](student/1.3_student_bubble_graph_cron_job.png "Example Image")
+![1.3_student_bubble_graph_cron_job.jpg image](student/1.3_student_bubble_graph_cron_job.jpg "Example Image")
 
 
-![2_overview_insights.png image](student/2_overview_insights.png "Example Image")
+![2_overview_insights.jpg image](student/2_overview_insights.jpg "Example Image")
 
-![2.1_overview_insights_api.png image](student/2.1_overview_insights_api.png "Example Image")
+![2.1_overview_insights_api.jpg image](student/2.1_overview_insights_api.jpg "Example Image")
 
+![2.2_overview_insights_api_response image](student/2.2_overview_insights_api_response.jpg "Example Image")
 
-![3_details_student_name_status.png image](student/3_details_student_name_status.png "Example Image")
-![3.1_details_student_name_status_api.png image](student/3.1_details_student_name_status_api.png "Example Image")
+![3_details_student_name_status.jpg image](student/3_details_student_name_status.jpg "Example Image")
+![3.1_details_student_name_status_api.jpg image](student/3.1_details_student_name_status_api.jpg "Example Image")
 
-![3.2_details_student_name_status_api_response.png image](student/3.2_details_student_name_status_api_response.png "Example Image")
-
-
-
-![4_engagement_general_insights.png image](student/4_engagement_general_insights.png "Example Image")
-![4.1_engagement_general_insights_api.png image](student/4.1_engagement_general_insights_api.png "Example Image")
-
-![4.2_engagement_general_insights_api_response.png image](student/4.2_engagement_general_insights_api_response.png "Example Image")
+![3.2_details_student_name_status_api_response.jpg image](student/3.2_details_student_name_status_api_response.jpg "Example Image")
 
 
-![5_engagement_insights.png image](student/5_engagement_insights.png "Example Image")
-![5.1_engagement_insights_api.png image](student/5.1_engagement_insights_api.png "Example Image")
 
-![5.2_engagement_insights_api_response image](student/5.2_engagement_insights_api_response.png "Example Image")
+![4_engagement_general_insights.jpg image](student/4_engagement_general_insights.jpg "Example Image")
+![4.1_engagement_general_insights_api.jpg image](student/4.1_engagement_general_insights_api.jpg "Example Image")
 
-
-![6_student_details_level_behaviour_prediction.png image](student/6_student_details_level_behaviour_prediction.png "Example Image")
-![6.1_student_details_level_behaviour_prediction_api.png image](student/6.1_student_details_level_behaviour_prediction_api.png "Example Image")
-
-![6.2_student_details_level_behaviour_prediction_api_response image](student/6.2_student_details_level_behaviour_prediction_api_response.png "Example Image")
+![4.2_engagement_general_insights_api_response.jpg image](student/4.2_engagement_general_insights_api_response.jpg "Example Image")
 
 
-![7_risk_indicators_attendance_other_modules.png image](student/7_risk_indicators_attendance_other_modules.png "Example Image")
-![7.1_risk_indicators_attendance_other_modules_api.png image](student/.1_risk_indicators_attendance_other_modules_api.png "Example Image")
+![5_engagement_insights.jpg image](student/5_engagement_insights.jpg "Example Image")
+![5.1_engagement_insights_api.jpg image](student/5.1_engagement_insights_api.jpg "Example Image")
 
-![7.2_risk_indicators_attendance_other_modules_api_response image](student/7.2_risk_indicators_attendance_other_modules_api_response.png "Example Image")
+![5.2_engagement_insights_api_response image](student/5.2_engagement_insights_api_response.jpg "Example Image")
+
+
+![6_student_details_level_behaviour_prediction.jpg image](student/6_student_details_level_behaviour_prediction.jpg "Example Image")
+![6.1_student_details_level_behaviour_prediction_api.jpg image](student/6.1_student_details_level_behaviour_prediction_api.jpg "Example Image")
+
+![6.2_student_details_level_behaviour_prediction_api_response image](student/6.2_student_details_level_behaviour_prediction_api_response.jpg "Example Image")
+
+
+![7_risk_indicators_attendance_other_modules.jpg image](student/7_risk_indicators_attendance_other_modules.jpg "Example Image")
+![7.1_risk_indicators_attendance_other_modules_api.jpg image](student/.1_risk_indicators_attendance_other_modules_api.jpg "Example Image")
+
+![7.2_risk_indicators_attendance_other_modules_api_response image](student/7.2_risk_indicators_attendance_other_modules_api_response.jpg "Example Image")
 
 
 
