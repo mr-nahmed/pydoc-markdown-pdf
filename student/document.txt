@@ -59,33 +59,35 @@ title: Student UI page inspection
 
 
 
-![8_assesment_insights.png image](student/8_assesment_insights.png "Example Image")
+![8_assesment_insights.jpg image](student/8_assesment_insights.jpg "Example Image")
 
-![8.1_assesment_insights_api.png image](student/8.1_assesment_insights_api.png "Example Image")
+![8.1_assesment_insights_api.jpg image](student/8.1_assesment_insights_api.jpg "Example Image")
 
-![8.2_assesment_insights_api_response image](student/8.2_assesment_insights_api_response.png "Example Image")
+![8.2_assesment_insights_api_response image](student/8.2_assesment_insights_api_response.jpg "Example Image")
 
-![9_assessment_graph image](student/9_assessment_graph.png "Example Image")
-![9.1_assessment_graph_api.png image](student/9.1_assessment_graph_api.png "Example Image")
+![9_assessment_graph image](student/9_assessment_graph.jpg "Example Image")
+![9.1_assessment_graph_api.jpg image](student/9.1_assessment_graph_api.jpg "Example Image")
 
-![9.2_assessment_graph_api_response image](student/9.2_assessment_graph_api_response.png "Example Image")
+![9.2_assessment_graph_api_response image](student/9.2_assessment_graph_api_response.jpg "Example Image")
 
-![10_performance_insights image](student/10_performance_insights.png "Example Image")
-![10.1_performance_insights_api.png image](student/10.1_performance_insights_api.png "Example Image")
+![10_performance_insights image](student/10_performance_insights.jpg "Example Image")
+![10.1_performance_insights_api.jpg image](student/10.1_performance_insights_api.jpg "Example Image")
 
-![10.2_performance_insights_api_response image](student/10.2_performance_insights_api_response.png "Example Image")
-
-
-
-![11_professions_name image](student/11_professions_name.png "Example Image")
-![11.1_professions_name_api.png image](student/11.1_professions_name_api.png "Example Image")
+![10.2_performance_insights_api_response image](student/10.2_performance_insights_api_response.jpg "Example Image")
 
 
-![12_bar_chart_image_pdf_etc image](student/12_bar_chart_image_pdf_etc.png "Example Image")
-![12.1_bar_chart_image_pdf_etc_api.png image](student/12.1_bar_chart_image_pdf_etc_api.png "Example Image")
-![12.2_bar_chart_image_pdf_etc_api_response image](student/12.2_bar_chart_image_pdf_etc_api_response.png "Example Image")
+
+![11_professions_name image](student/11_professions_name.jpg "Example Image")
+![11.1_professions_name_api.jpg image](student/11.1_professions_name_api.jpg "Example Image")
+![11.2_professions_name_api_response.jpg image](student/11.2_professions_name_api_response.jpg "Example Image")
+
+![12_bar_chart_image_pdf_etc image](student/12_bar_chart_image_pdf_etc.jpg "Example Image")
+![12.1_bar_chart_image_pdf_etc_api.jpg image](student/12.1_bar_chart_image_pdf_etc_api.jpg "Example Image")
+![12.2_bar_chart_image_pdf_etc_api_response image](student/12.2_bar_chart_image_pdf_etc_api_response.jpg "Example Image")
 
 
+## Following is the cronjob for above one.
+### (update_performance_corr_srvc) psuedo code of this cron job is at end of document.
 
 # Pseudo Code for `update_behavior_analysis_srvc` function
 
