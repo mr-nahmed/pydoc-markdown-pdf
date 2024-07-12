@@ -1,0 +1,257 @@
+---
+title: SAT UI page inspection
+---
+
+
+![1_student_feedback_module](sat/1_student_feedback_module.jpg "Example Image")
+
+
+![1.1_student_feedback_module_api.jpg image](sat/1.1_student_feedback_module_api.jpg "Example Image")
+
+
+![1.2_student_bubble_graph_api_response.jpg image](student/1.2_student_bubble_graph_api_response.jpg "Example Image")
+
+
+## Following is the cronjob for above one.
+### (update_behaviour_analysis_srvc) psuedo code of this cron job is at end of document.
+
+
+![2_overview_insights.jpg image](student/2_overview_insights.jpg "Example Image")
+
+![2.1_overview_insights_api.jpg image](student/2.1_overview_insights_api.jpg "Example Image")
+
+![2.2_overview_insights_api_response image](student/2.2_overview_insights_api_response.jpg "Example Image")
+
+![3_details_student_name_status.jpg image](student/3_details_student_name_status.jpg "Example Image")
+
+![3.1_details_student_name_status_api.jpg image](student/3.1_details_student_name_status_api.jpg "Example Image")
+
+![3.2_details_student_name_status_api_response.jpg image](student/3.2_details_student_name_status_api_response.jpg "Example Image")
+
+
+
+![4_engagement_general_insights.jpg image](student/4_engagement_general_insights.jpg "Example Image")
+
+![4.1_engagement_general_insights_api.jpg image](student/4.1_engagement_general_insights_api.jpg "Example Image")
+
+![4.2_engagement_general_insights_api_response.jpg image](student/4.2_engagement_general_insights_api_response.jpg "Example Image")
+
+
+![5_engagement_insights.jpg image](student/5_engagement_insights.jpg "Example Image")
+
+![5.1_engagement_insights_api.jpg image](student/5.1_engagement_insights_api.jpg "Example Image")
+
+![5.2_engagement_insights_api_response image](student/5.2_engagement_insights_api_response.jpg "Example Image")
+
+
+![6_student_details_level_behaviour_prediction.jpg image](student/6_student_details_level_behaviour_prediction.jpg "Example Image")
+
+![6.1_student_details_level_behaviour_prediction_api.jpg image](student/6.1_student_details_level_behaviour_prediction_api.jpg "Example Image")
+
+![6.2_student_details_level_behaviour_prediction_api_response image](student/6.2_student_details_level_behaviour_prediction_api_response.jpg "Example Image")
+
+
+![7_risk_indicators_attendance_other_modules.jpg image](student/7_risk_indicators_attendance_other_modules.jpg "Example Image")
+
+![7.1_risk_indicators_attendance_other_modules_api.jpg image](student/7.1_risk_indicators_attendance_other_modules_api.jpg "Example Image")
+
+![7.2_risk_indicators_attendance_other_modules_api_response image](student/7.2_risk_indicators_attendance_other_modules_api_response.jpg "Example Image")
+
+
+
+![8_assesment_insights.jpg image](student/8_assesment_insights.jpg "Example Image")
+
+![8.1_assesment_insights_api.jpg image](student/8.1_assesment_insights_api.jpg "Example Image")
+
+![8.2_assesment_insights_api_response image](student/8.2_assesment_insights_api_response.jpg "Example Image")
+
+
+![9_assessment_graph image](student/9_assessment_graph.jpg "Example Image")
+
+![9.1_assessment_graph_api.jpg image](student/9.1_assessment_graph_api.jpg "Example Image")
+
+![9.2_assessment_graph_api_response image](student/9.2_assessment_graph_api_response.jpg "Example Image")
+
+
+![10_performance_insights image](student/10_performance_insights.jpg "Example Image")
+
+![10.1_performance_insights_api.jpg image](student/10.1_performance_insights_api.jpg "Example Image")
+
+![10.2_performance_insights_api_response image](student/10.2_performance_insights_api_response.jpg "Example Image")
+
+
+![11_professions_name image](student/11_professions_name.jpg "Example Image")
+
+![11.1_professions_name_api.jpg image](student/11.1_professions_name_api.jpg "Example Image")
+
+![11.2_professions_name_api_response.jpg image](student/11.2_professions_name_api_response.jpg "Example Image")
+
+
+![12_bar_chart_image_pdf_etc image](student/12_bar_chart_image_pdf_etc.jpg "Example Image")
+
+![12.1_bar_chart_image_pdf_etc_api.jpg image](student/12.1_bar_chart_image_pdf_etc_api.jpg "Example Image")
+
+![12.2_bar_chart_image_pdf_etc_api_response image](student/12.2_bar_chart_image_pdf_etc_api_response.jpg "Example Image")
+
+
+## Following is the cronjob for above one.
+### (update_performance_corr_srvc) psuedo code of this cron job is at end of document.
+
+
+
+# Pseudo Code for `update_behavior_analysis_srvc` function
+
+- Define function `update_behavior_analysis_srvc` that returns a dictionary
+- Initialize an empty dictionary `response`
+- Load the state loader and data pusher
+  - `state_loader` is assigned the result of `self.state_loader.get_states_loader(states_loader_type="")`
+  - `data_pusher` is assigned the result of `self.data_pusher.get_data_pusher(data_pusher_type=UPDATE_BEHAVIOR_ANALYSIS_COLL)`
+- Begin try block
+  - Fetch behavior analysis data and assign it to `response`
+  - Extract relevant data from the response
+    - `df_prac_ended` is assigned data from `response[DATA_KEY][LEARN_RECS_PRAC_ENDED_DATA_KEY]`
+    - `df_assessment_tabs` is assigned data from `response[DATA_KEY][ASSESSMENT_TABS_COLL]`
+    - `df_content` is assigned data from `response[DATA_KEY][CONTENT_DATA_KEY]`
+    - `df_content_metas` is assigned data from `response[DATA_KEY][CONTENT_META_DATA_KEY]`
+  - Merge content data with metadata
+    - `df_content_all` is created by merging `df_content` and `df_content_metas` on `contentId` with left join
+  - Extract and filter LSOD quizzes
+    - Apply a lambda function to extract the definition from `lsod` column in `df_content_all`
+    - Explode `lsod` column in `df_content_all`
+    - Filter `df_content_all` for rows where `lsod` type is "PRACTICE"
+    - Create a new column `quizId` from `lsod` data in `df_content_all`
+    - Select columns `quizId`, `contentId`, and `courseId` in `df_content_all`
+  - Calculate average module and course scores using LSOD quizzes
+    - Rename `quizId` column to `practiceId` in `df_content_all`
+    - Merge `df_assessment_tabs` with `df_content_all` on `practiceId` and `courseId` with left join
+    - Rename `practiceId` back to `quizId` in `df_content_all`
+    - Group by `courseId`, `userId`, and `moduleId` to calculate mean percentage scores, store in `df_module_scores`
+    - Group by `courseId` and `userId` to calculate mean percentage scores, store in `df_course_scores`
+    - Round `percentage` in `df_course_scores` to two decimal places
+  - Filter out rows with missing quizId values
+    - Merge `df_prac_ended` with `df_content_all` on `practiceId` and `quizId` with left join
+    - Filter `df_prac_ended` to exclude rows with NaN `quizId`
+    - Select specific columns in `df_prac_ended` and rename `courseId_x` to `courseId`
+  - Calculate practice quiz scores
+    - Initialize an empty list `prac_ended_total`
+    - Group `df_prac_ended` by `userId` and `courseId`
+    - For each group, initialize `avg_score_list`
+      - For each practice quiz, sort by `endTime`
+      - Calculate score as `result["score"] / result["maxScore"]` and append to `avg_score_list`
+    - Append `userId`, `courseId`, practice quiz count, and average score to `prac_ended_total`
+  - Convert results to DataFrame `df_prac_ended_total` and rename columns
+  - Merge scores with practice-ended total counts
+    - Merge `df_course_scores` with `df_prac_ended_total` on `courseId` and `userId` with left join, fill NaNs with 0, and rename columns
+  - Calculate total count of quizzes per course
+    - Group `df_content_all` by `courseId` to count quizzes and create `df_total_course_practice_count`
+    - Rename columns in `df_total_course_practice_count`
+  - Merge final results with total course practice counts
+    - Merge `final_df` with `df_total_course_practice_count` on `courseId` with left join
+  - Filter practice-ended data for today
+    - Get the current date and store in `date_now`
+    - Filter `df_prac_ended` for rows where `endTime` is today and store in `df_prac_ended_today`
+  - If `df_prac_ended_today` is not empty:
+    - Initialize an empty list `prac_ended_total_today`
+    - Group `df_prac_ended_today` by `userId` and `courseId`
+    - Append `userId`, `courseId`, and count of unique practice quizzes to `prac_ended_total_today`
+    - Convert to DataFrame `df_prac_ended_total_today` and rename columns
+    - Merge `final_df` with `df_prac_ended_total_today` and fill NaNs with 0
+  - Else:
+    - Set `final_df["practice_quiz_count_daily"]` to 0
+  - Additional processing steps for schedule groups and program items
+    - Filter `df_schedule_groups` and `df_program_items` for relevant data
+    - Calculate maximum version of schedule groups and merge with `df_schedule_groups`
+    - Filter `schedule_group_items` for lesson type and program items
+    - Merge `schedule_group_items` with `df_program_items` on `programItemId`
+    - Filter `schedule_group_items` for today's lessons
+    - Create `lesson_id_list` dictionary for lessons scheduled today
+  - Final processing, classification, and formatting
+    - Calculate practice count in `df_content`
+    - Merge `df_content` with `df_content_metas` on `contentId`
+    - Group data by objectives and create `df_final_list`
+    - Update `daily_total_count` for lessons not scheduled today
+    - Merge `df_final_list` with `final_df` and fill NaNs
+    - Apply `behavior_classifier` to classify behaviors in `final_df`
+    - Merge `final_df` with user information from `df_users`
+    - Format columns in `final_df`
+  - Group by course and behavior type, and prepare final records
+    - Initialize an empty list `records`
+    - Group `final_df` by `courseId`
+    - For each group, initialize an empty list `rec`
+      - Group by behavior category and create user data dictionary
+      - Create final record dictionary and append to `rec`
+    - Append course record to `records`
+  - Ensure all behavior categories are represented
+    - Define `behavior_map` with all behavior categories
+    - For each record in `records`, check if all behavior types are present
+    - Append empty data for missing behavior types if necessary
+  - Assign `records` to `response[DATA_KEY][UPDATE_BEHAVIOR_ANALYSIS_COLL]`
+- Catch exceptions
+  - Log the error message and stack trace in `response`
+- Finally, push data using `data_pusher` and `state_loader`
+- Return `response`
+
+
+
+
+
+
+# Pseudo Code for `update_performance_corr_srvc` function
+
+- Define function `update_performance_corr_srvc` that returns a dictionary
+- Initialize an empty dictionary `response`
+- Load the state loader and data pusher
+  - `state_loader` is assigned the result of `self.state_loader.get_states_loader(states_loader_type="")`
+  - `data_pusher` is assigned the result of `self.data_pusher.get_data_pusher(data_pusher_type=UPDATE_PERFORMANCE_CORRELATION_COLL)`
+- Begin try block
+  - Fetch performance correlation data and assign it to `response`
+  - Extract relevant data from the response
+    - `df_learn` is assigned data from `response[DATA_KEY][LEARN_RECS_ENDED_DATA_KEY]`
+    - Convert the "result" key in `df_learn` to a DataFrame `df_learn_result`
+    - `df_content` is assigned data from `response[DATA_KEY][CONTENT_DATA_KEY]`
+  - Merge content data with learn ended data
+    - `df_learn_content` is created by merging `df_learn_result` and `df_content` on `contentId` and `id` with left join
+    - Filter `df_learn_content` to exclude rows where `type` is NaN
+    - Classify content type in `df_learn_content` using a lambda function
+  - Extract module and lesson IDs
+    - Apply functions to extract `moduleId` and `lessonId` in `df_learn_content`
+  - Calculate content percentages with respect to user
+    - Initialize an empty list `user_content_percentage`
+    - Group `df_learn_content` by `userId`
+    - For each group, aggregate content data and calculate percentage time spent
+    - Append user content data to `user_content_percentage`
+    - Convert `user_content_percentage` to DataFrame `df_users_content`
+  - Calculate content percentages with respect to module
+    - Initialize an empty list `module_content_percentage`
+    - Group `df_learn_content` by `moduleId`
+    - For each group, aggregate content data and calculate module percentage spent
+    - Append module content data to `module_content_percentage`
+    - Convert `module_content_percentage` to DataFrame `df_module_content`
+  - Extract and process performance scores
+    - `df_scores` is assigned data from `response[DATA_KEY][PERFORMANCE_ASSESSMENT_DATA_KEY]`
+    - Explode `type_data` in `df_scores` and normalize JSON data
+    - Explode `user_data` in `df_scores_exploded` and normalize JSON data
+    - Filter IP user module scores in `df_scores_exploded`
+    - Calculate class average scores and merge with `df_module_content`
+    - Fill NaNs in `class_average` with 0 and drop unnecessary columns
+  - Calculate mean user score across exams IP and PP
+    - Explode `data` in `df_users_content` and normalize JSON data
+    - Merge user content data with performance scores
+    - Fill NaNs in `performance` with 0 and group by `userId` to create final user content data
+  - Construct final collection
+    - Extract module data from response
+    - Initialize an empty list `final_data`
+    - For each user, iterate through their content data and prepare final records
+    - Append final records to `final_data`
+    - Add `final_data` to `df_users_content`
+    - Extract necessary columns to create `df_final`
+  - Update response with final data
+    - Assign processed learn content data to `response[DATA_KEY][UPDATE_STUDENT_ENGAGEMENT_TIME_COLL]`
+    - Assign final performance correlation data to `response[DATA_KEY][UPDATE_PERFORMANCE_CORRELATION_COLL]`
+- Catch exceptions
+  - Log the error message and stack trace in `response`
+- Finally, push data using `data_pusher` and `state_loader`
+- Return `response`
+
+
+
