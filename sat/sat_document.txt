@@ -11,7 +11,7 @@ title: SAT UI page inspection
 
 
 
-![2_student_lesson_feedback.jpg image](sat/2_student_lesson_feedback "Example Image")
+![2_student_lesson_feedback.jpg image](sat/2_student_lesson_feedback.jpg "Example Image")
 
 ![2.1_student_lesson_feedback_api.jpg image](sat/2.1_student_lesson_feedback_api.jpg "Example Image")
 
